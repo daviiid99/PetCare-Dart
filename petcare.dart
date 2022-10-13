@@ -1,4 +1,29 @@
 import 'dart:io';
+import 'dart:math';
+
+
+abstract class Animal{
+	factory Animal(String animal){
+		if (animal == "perro") return Perro("guau");
+		if (animal == "gato") return Gato("miau");
+		throw 'Can\'t create $animal.';
+	}
+
+	String get saludo;
+}
+
+class Perro implements Animal {
+	final String animal;
+	Perro(this.animal);
+	String get saludo => "guau";
+
+}
+
+class Gato implements Animal {
+	final String animal;
+	Gato(this.animal);
+	String get saludo => "miau";
+}
 
 class PetCare {
 	int food = 0;
@@ -8,9 +33,10 @@ class PetCare {
 	String name = "none";
 	int age = 0;
 	String get petName => this.name;
+	String animal = "";
 
 
-	PetCare({this.age = 0, this.name = "Pepe"});
+	PetCare({this.age = 0, this.name = "Pepe", this.animal = ""});
 
 	@override
 	String toString() => "---- $name Stats -----\nAge : $age\nFood : $food/5\nWater : $water/5\nGift : $gift/5\n--------------------";
@@ -46,6 +72,9 @@ void main(List<String> args){
 	bool create = true;
 	String? name = "";
 	int? age = 0;
+	String? animal = "";
+	final gato = Animal("gato");
+	final perro = Animal("perro");
 
 	while (play) {
 		print("----- PetCare MiniGame -----\n[1] : Manage Pets\n[2] : Give some water\n[3] : Give some food\n[4] : Check stats\n[5] : Exit\n----------------------------\n");
@@ -67,8 +96,21 @@ void main(List<String> args){
 					print("What's your pet age? : ");
 					int? age = int.parse(stdin.readLineSync()!);
 
-					mascota = PetCare(name : "$name", age : age);
+					print("What's your animal? (Gato|Perro) : ");
+					String? animal = stdin.readLineSync();
+
+					mascota = PetCare(name : "$name", age : age, animal : "$animal");
 					pets.add(mascota);
+
+					if (animal == "Gato"){
+						print(gato.saludo);
+					}
+
+					else {
+						print(perro.saludo);
+
+					}
+					
 
 					}
 
