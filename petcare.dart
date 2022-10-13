@@ -5,12 +5,15 @@ class PetCare {
 	int water = 0;
 	int gift = 0;
 	bool happy = false;
-	String name = "";
+	String name = "none";
+	int age = 0;
+	String get petName => this.name;
 
-	PetCare(this.name);
+
+	PetCare({this.age = 0, this.name = "Pepe"});
 
 	@override
-	String toString() => "---- $name Stats -----\nFood : $food/5\nWater : $water/5\nGift : $gift/5\n--------------------";
+	String toString() => "---- $name Stats -----\nAge : $age\nFood : $food/5\nWater : $water/5\nGift : $gift/5\n--------------------";
 
 
 	void giveWater(){
@@ -36,30 +39,77 @@ class PetCare {
 }
 
 void main(List<String> args){
-	var mascota = PetCare("anonymous");
+	var mascota = PetCare();
+	var currentPet = PetCare();
+	List<PetCare> pets = [];
 	bool play = true;
+	bool create = true;
+	String? name = "";
+	int? age = 0;
 
 	while (play) {
-		print("----- PetCare MiniGame -----\n[1] : Enter Pet Name\n[2] : Give some water\n[3] : Give some food\n[4] : Check stats\n[5] : Exit");
+		print("----- PetCare MiniGame -----\n[1] : Manage Pets\n[2] : Give some water\n[3] : Give some food\n[4] : Check stats\n[5] : Exit\n----------------------------\n");
 		int? choose = int.parse(stdin.readLineSync()!);
 
-		if (choose == 1) {
-			print("What's your pet name? : ");
-			String? name = stdin.readLineSync();
-			mascota = PetCare("$name");
+		if (choose == 1){
+			create = true;
 
+			while (create){
+
+				print("\n[1] : Create new pet\n[2] : Show all pets\n[3] : Set current pet\n[4] : Return\n");
+				int? user = int.parse(stdin.readLineSync()!);
+
+				if (user == 1){
+
+					print("What's your pet name? : ");
+					String? name = stdin.readLineSync();
+
+					print("What's your pet age? : ");
+					int? age = int.parse(stdin.readLineSync()!);
+
+					mascota = PetCare(name : "$name", age : age);
+					pets.add(mascota);
+
+					}
+
+				else if (user == 2){
+					for (int i = 0; i < pets.length; i++){
+						print(pets[i]);
+					}
+				}
+
+				else if (user == 3){
+					print("\nEnter your pet name : ");
+					String? name = stdin.readLineSync();
+
+
+					for (int i = 0; i < pets.length; i++){
+						if (pets.elementAt(i).petName == name){
+							currentPet = pets.elementAt(i);
+						}
+						}
+						
+				}
+
+				else {
+					create = false;
+
+				}	
+			}
+				
 		}
 
+
 		else if (choose == 2) {
-			mascota.giveWater();
+			currentPet.giveWater();
 		}
 
 		else if (choose == 3){
-			mascota.giveFood();
+			currentPet.giveFood();
 		}
 
 		else if (choose == 4){
-			print(mascota);
+			print(currentPet);
 		}
 
 		else {
